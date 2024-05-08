@@ -17,3 +17,18 @@ npm install
 ```
 ## Usage 
 The use of this application can make the lives of those who are really busy really easy.With it's easy to use features this application can help users stay on track and on time with important task and notes.Users can stay organized which will help them become more effective and productive.
+
+## License 
+Read more about [MIT license](https://opensource.org/licenses/MIT).
+
+## Start App
+Once users install the required npm packages and clone the repo start the application by typeing this command into your terminal to start the server:
+```
+npm start
+```
+You can view your application on your browser by typing localhost3001 into the top address bar.
+
+## Questions:
+If you have any futher questions you can contact me at<br>
+[JaysonNunez1](https://github.com/JaysonNunez1)<br>
+jaysonnunez3@gmail.com<br>
