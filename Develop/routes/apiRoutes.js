@@ -4,49 +4,74 @@ const fs = require('fs');
 
 const uuid = require('../helpers/uuid');
 
-router.get('/notes', function(req,res){
-    fs.readFile('./db/db.json', (err,data) =>{
-        if (err) throw err;
-        dbData = JSON.parse(data);
-        res.send(dbData);
+
+router.get('/notes', function(req, res) {
+    fs.readFile('./db/db.json', (err, data) => {
+      if (err) throw err;
+      dbData = JSON.parse(data);
+      res.send(dbData);
     });
-});
+  });
 
-router.post ('/notes', function (req,res){
-    const userNotes = req.body;
-    fs.readFile('./db/db.json', (err,data) =>{
-        if (err) throw err;
-        dbData = JSON.parse(data);
-        dbData.forEach((note, index) =>{
-            note.id = uuid();
-            return dbData;
-        });
-        console.log(dbData);
-
-        stringData = JSON.stringify(dbData);
-        fs.writeFile('./db/db.json', stringData, (err) =>{
-            if (err) throw err;
-        });
+  router.post('/notes', function(req, res) {
+    if (!req.body || typeof req.body!== 'object') {
+      return res.status(400).send('Invalid request body');
+    }
+  
+    fs.readFile('./db/db.json', (err, data) => {
+      if (err) {
+        return res.status(500).send('Internal Server Error');
+      }
+  
+      let dbData = JSON.parse(data);
+      dbData.push(req.body);
+  
+      dbData.forEach((note, index) => {
+        note.id = uuid();
+      });
+  
+      const stringData = JSON.stringify(dbData);
+  
+      fs.writeFile('./db/db.json', stringData, (err) => {
+        if (err) {
+          return res.status(500).send('Internal Server Error');
+        }
+        res.send('Added');
+      });
     });
-    res.send('Added');
-});
+  });
+  
+  router.delete('/notes/:id', deleteNote);
 
-router.delete('/notes/:id', function(req,res) {
-    const deleteNote = req.params.id;
-    console.log(`Delete note ID: ${deleteNote}`);
-    fs.readFile('./db/db.json', (err,data) => {
-        if (err) throw err;
-        dbData = JSON.parse(data);
-        for (let i = 0; i < dbData.length; i++) {
-            if (dbData[i].id === deleteNote) {
-                dbData.splice([i], 1);
-                stringData = JSON.stringify(dbData);
-                fs.writeFile('./db/db.json', stringData, (err) => {
-                    if (err) throw err;
-                });
-            }};
-            res.status(204).send();
-        });
-});
-
-module.exports = router;
+  function deleteNote(req, res) {
+    const noteId = req.params.id;
+    console.log(`Delete note ID: ${noteId}`);
+  
+    fs.readFile('./db/db.json', (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send({ message: 'Error reading file' });
+        return;
+      }
+  
+      const dbData = JSON.parse(data);
+      const index = dbData.findIndex((note) => note.id === noteId);
+  
+      if (index!== -1) {
+        dbData.splice(index, 1);
+      }
+  
+      const stringData = JSON.stringify(dbData);
+  
+      fs.writeFile('./db/db.json', stringData, (err) => {
+        if (err) {
+          console.error(err);
+          res.status(500).send({ message: 'Error writing file' });
+        } else {
+          res.status(204).send();
+        }
+      });
+    });
+  }
+  
+  module.exports = router;
