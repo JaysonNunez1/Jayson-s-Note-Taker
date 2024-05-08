@@ -28,6 +28,9 @@ npm start
 ```
 You can view your application on your browser by typing localhost3001 into the top address bar.
 
+## Walkthrough Video
+(https://drive.google.com/file/d/16FgDAEGKkKdLddeqsYQhoS6obHLuDx2Y/view)
+
 ## Questions:
 If you have any futher questions you can contact me at<br>
 [JaysonNunez1](https://github.com/JaysonNunez1)<br>
