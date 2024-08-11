@@ -1,0 +1,16 @@
+{
+  "name": "jayson-s-note-taker",
+  "version": "1.0.0",
+  "description": "## Description For this challenege i will be building server files and servers for a Note Taker application using express.js.<br> I was provided with starter code to start and i added server code and Route files to make this application work.<br>",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "deploy": "gh-pages -d build"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
